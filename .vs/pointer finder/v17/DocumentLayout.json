@@ -1,0 +1,49 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Bendi\\source\\repos\\Dark_souls_pointers\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{11D444BC-70A0-4039-9CEC-AA2513BB7424}|pointer finder\\pointer finder.vcxproj|C:\\Users\\Bendi\\source\\repos\\Dark_souls_pointers\\pointer finder\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{11D444BC-70A0-4039-9CEC-AA2513BB7424}|pointer finder\\pointer finder.vcxproj|solutionrelative:pointer finder\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\Users\\Bendi\\source\\repos\\Dark_souls_pointers\\pointer finder\\main.cpp",
+              "RelativeDocumentMoniker": "pointer finder\\main.cpp",
+              "ToolTip": "C:\\Users\\Bendi\\source\\repos\\Dark_souls_pointers\\pointer finder\\main.cpp",
+              "RelativeToolTip": "pointer finder\\main.cpp",
+              "ViewState": "AQIAAIgAAAAAAAAAAAAIwJIAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-09-11T15:54:04.08Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
