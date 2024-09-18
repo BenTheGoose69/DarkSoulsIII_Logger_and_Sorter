@@ -1,2 +1,14 @@
 ﻿  main.cpp
+C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(122,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(129,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(138,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(147,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(153,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(159,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(165,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(171,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(178,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(185,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(699,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(66,1): warning C4715: 'GetInitialOffset': not all control paths return a value
   pointer finder.vcxproj -> C:\Users\Bendi\source\repos\Dark_souls_pointers\x64\Debug\pointer finder.exe
