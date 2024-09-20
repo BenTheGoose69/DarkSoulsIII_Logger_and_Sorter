@@ -1,20 +1,4 @@
 ﻿  main.cpp
-<<<<<<< HEAD
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(124,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(131,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(140,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(149,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(155,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(161,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(167,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(173,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(180,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(187,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(194,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(712,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(67): warning C4715: 'GetInitialOffset': not all control paths return a value
-  pointer finder.vcxproj -> C:\Users\kovac\Source\Repos\Dark_souls_pointers\x64\Debug\pointer finder.exe
-=======
 C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(122,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(129,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(138,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
@@ -28,4 +12,3 @@ C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(185,35):
 C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(699,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(66,1): warning C4715: 'GetInitialOffset': not all control paths return a value
   pointer finder.vcxproj -> C:\Users\Bendi\source\repos\Dark_souls_pointers\x64\Debug\pointer finder.exe
->>>>>>> 3c5ec04b3df9eebb6f36e6a2bd71404d77f41ca8
