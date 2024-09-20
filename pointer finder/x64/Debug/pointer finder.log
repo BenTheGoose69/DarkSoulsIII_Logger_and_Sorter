@@ -1,2 +1,15 @@
 ﻿  main.cpp
+C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(124,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(131,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(140,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(149,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(155,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(161,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(167,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(173,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(180,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(187,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(194,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(712,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\main.cpp(67): warning C4715: 'GetInitialOffset': not all control paths return a value
   pointer finder.vcxproj -> C:\Users\kovac\Source\Repos\Dark_souls_pointers\x64\Debug\pointer finder.exe
