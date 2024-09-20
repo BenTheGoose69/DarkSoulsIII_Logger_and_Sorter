@@ -6,6 +6,7 @@
 #include <psapi.h>
 #include <string>
 #include <vector>
+#include <fstream>
 //#define DEBUG
 
 
@@ -105,7 +106,7 @@ DWORD64 FindPointer(HANDLE process_handle, DWORD64 base_address, int initial_off
  * @param base_address  The base address
  * @param number  0 Steam ID ; 1 Character name ; 2 Current health ; 3 Current animation ;
  * 4 Playtime ; 5 Number of deaths ; 6 Currently fighting a boss? ; 7 Last Bonfire ; 
- * 8 Current souls ; 9 Total souls
+ * 8 Current souls ; 9 Total souls ; 10 Level
  *
  * @returns A pointer to the desired place
  */
@@ -114,21 +115,22 @@ DWORD64 FindSpecificPointer(HANDLE process_handle, DWORD64 base_address, int num
 	//offsets.resize(21);
 	int offset_amount;
 	DWORD64 pointer;
-	
+	int initial_offset;
+
 	switch (number) {
 	case 0: //STEAM ID
 		offsets.push_back(0x10);
 		offsets.push_back(0x7D8);
 		offset_amount = offsets.capacity();
-		pointer = FindPointer(process_handle, base_address, GetInitialOffset("GameDataMan"), offsets, offset_amount);
-		return pointer;
+		initial_offset = GetInitialOffset("GameDataMan");
+		break;
 
 	case 1: //CHARACTER NAME
 		offsets.push_back(0x10);
 		offsets.push_back(0x88);
 		offset_amount = offsets.capacity();
-		pointer = FindPointer(process_handle, base_address, GetInitialOffset("GameDataMan"), offsets, offset_amount);
-		return pointer;
+		initial_offset = GetInitialOffset("GameDataMan");
+		break;
 
 	case 2: //CURRENT HEALTH
 		offsets.push_back(0x80);
@@ -136,8 +138,8 @@ DWORD64 FindSpecificPointer(HANDLE process_handle, DWORD64 base_address, int num
 		offsets.push_back(0x18);
 		offsets.push_back(0xD8);
 		offset_amount = offsets.capacity();
-		pointer = FindPointer(process_handle, base_address, GetInitialOffset("WorldChrMan"), offsets, offset_amount);
-		return pointer;
+		initial_offset = GetInitialOffset("WorldChrMan");
+		break;
 
 	case 3: //CURRENT ANIMATION
 		offsets.push_back(0x80);
@@ -145,51 +147,62 @@ DWORD64 FindSpecificPointer(HANDLE process_handle, DWORD64 base_address, int num
 		offsets.push_back(0x80);
 		offsets.push_back(0xC8);
 		offset_amount = offsets.capacity();
-		pointer = FindPointer(process_handle, base_address, GetInitialOffset("WorldChrMan"), offsets, offset_amount);
-		return pointer;
+		initial_offset = GetInitialOffset("WorldChrMan");
+		break;
 
 	case 4: //PLAYTIME
 		offsets.push_back(0xA4);
 		offset_amount = offsets.capacity();
-		pointer = FindPointer(process_handle, base_address, GetInitialOffset("GameDataMan"), offsets, offset_amount);
-		return pointer;
+		initial_offset = GetInitialOffset("GameDataMan");
+		break;
 
 	case 5: //NUMBER OF DEATHS
 		offsets.push_back(0x98);
 		offset_amount = offsets.capacity();
-		pointer = FindPointer(process_handle, base_address, GetInitialOffset("GameDataMan"), offsets, offset_amount);
-		return pointer; 
+		initial_offset = GetInitialOffset("GameDataMan");
+		break;
 
 	case 6: //"CURRENTLY FIGHTING A BOSS?"
 		offsets.push_back(0xC0);
 		offset_amount = offsets.capacity();
-		pointer = FindPointer(process_handle, base_address, GetInitialOffset("GameDataMan"), offsets, offset_amount);
-		return pointer;
+		initial_offset = GetInitialOffset("GameDataMan");
+		break;
 
 	case 7: //BONFIRE PLACE
 		offsets.push_back(0xACC);
 		offset_amount = offsets.capacity();
-		pointer = FindPointer(process_handle, base_address, GetInitialOffset("GameMan"), offsets, offset_amount);
-		return pointer;
+		initial_offset = GetInitialOffset("GameMan");
+		break;
 
 	case 8: //CURRENT SOULS
 		offsets.push_back(0x10);
 		offsets.push_back(0x74);
 		offset_amount = offsets.capacity();
-		pointer = FindPointer(process_handle, base_address, GetInitialOffset("GameDataMan"), offsets, offset_amount);
-		return pointer;
+		initial_offset = GetInitialOffset("GameDataMan");
+		break;
 
 	case 9: //TOTAL SOULS
 		offsets.push_back(0x10);
 		offsets.push_back(0x78);
 		offset_amount = offsets.capacity();
-		pointer = FindPointer(process_handle, base_address, GetInitialOffset("GameDataMan"), offsets, offset_amount);
-		return pointer;
+		initial_offset = GetInitialOffset("GameDataMan");
+		break;
+
+	case 10: //LEVEL
+		offsets.push_back(0x10);
+		offsets.push_back(0x70);
+		offset_amount = offsets.capacity();
+		initial_offset = GetInitialOffset("GameDataMan");
+		break;
+		
 
 	default:
 		std::cerr << "No preset pointer with this number!" << std::endl;
 		return NULL;
 	}
+	pointer = FindPointer(process_handle, base_address, initial_offset, offsets, offset_amount);
+	return pointer;
+
 }
 
 
@@ -236,7 +249,7 @@ std::string GetPlayerID(HANDLE process_handle, DWORD64 base_address) {
 		//Conversion wide -> char*
 		wcstombs(narrow_str, buffer, size_needed);
 		std::string SteamID (narrow_str);
-		PlayerID = PlayerID + " [" + SteamID + "]";
+		PlayerID = PlayerID + "[" + SteamID + "].txt";
 		delete[] narrow_str;
 	}
 	else {
@@ -855,6 +868,36 @@ std::string convertMilliseconds(long long milliseconds) {
 	return playtime;
 }
 
+/*
+* Explanation for the logging:
+*
+* #
+* death number
+* when it happened
+* 
+* ##
+* resting at which bonfire
+* current level
+* current souls
+* total souls
+* when it happened
+* 
+* ###
+* recovered souls
+* when it happened
+* 
+* ####
+* ENTERED / DIED / DEFEATED (bossfights)
+* boss name / NIL
+* when it happened
+* Boss name
+*/
+void WriteToLog(std::string filename, std::string message) {
+	std::ofstream My_file;
+	My_file.open(filename, std::ios::app);
+	My_file << message;
+	My_file.close();
+}
 
 int main() {
 	const wchar_t* process_name = L"DarkSoulsIII.exe";
@@ -876,11 +919,12 @@ int main() {
 
 				SIZE_T bytesRead;
 
-				std::string Player_ID = GetPlayerID(hProcess, baseAddress);
+				
 				int printed_death = 0;
 				int waiting = 0;
 
 				while (GetProcessID(process_name)) {
+					std::string Player_ID = GetPlayerID(hProcess, baseAddress);
 					int log_lock = 0;
 
 					//HEALTH 2
@@ -941,6 +985,13 @@ int main() {
 						std::cout << "Total souls Pointer: " << std::hex << deathnum_pointer << std::endl;
 					#endif
 
+					//LEVEL 10
+					DWORD64 level_pointer = FindSpecificPointer(hProcess, baseAddress, 10);
+					int level = 0;
+					#ifdef DEBUG
+						std::cout << "Level Pointer: " << std::hex << level_pointer << std::endl;
+					#endif
+
 
 					if (health_pointer) {
 						if (waiting == 1) {
@@ -953,7 +1004,7 @@ int main() {
 							//HEALTH
 							if (ReadProcessMemory(hProcess, (BYTE*)health_pointer, &player_health, sizeof(player_health), &bytesRead) && bytesRead == sizeof(player_health)) {
 								#ifdef DEBUG
-									std::cout << "Player's Health: " << player_health << std::endl;
+									std::cout << "Player's Health: " << std::to_string(player_health) << std::endl;
 								#endif
 							}
 							else {
@@ -989,12 +1040,18 @@ int main() {
 									#endif
 
 									if (active_fighting == 0) {
+										std::stringstream log;
 										active_fighting = 1;
 										boss_vector_start = GetBossVector(hProcess, baseAddress);
 										std::cout << "Player started a bossfight!\t(" << playtime_string << ")" << std::endl;
+										log << "####\n" << "ENTER\n" << "NIL\n" << playtime_string << "\n";
+										WriteToLog(Player_ID, log.str());
 									}
 									if (active_fighting == 1 && player_health == 0) {
+										std::stringstream log;
 										std::cout << "Player died in a bossfight!\t(" <<playtime_string <<")"<< std::endl;
+										log << "####\n" << "DIED\n" << "NIL\n" << playtime_string << "\n";
+										WriteToLog(Player_ID, log.str());
 									}
 									
 								}
@@ -1004,7 +1061,10 @@ int main() {
 										active_fighting = 0;
 										std::string boss_name = CompareBossVectors(boss_vector_start,boss_vector_end);
 										if (boss_name != "0") {
+											std::stringstream log;
 											std::cout << "Player defeated " << boss_name << "!\t(" << playtime_string << ")" << std::endl;
+											log << "####\n" << "DEFEATED\n" << boss_name <<"\n" << playtime_string << "\n";
+											WriteToLog(Player_ID, log.str());
 										}
 									}
 									#ifdef DEBUG
@@ -1016,20 +1076,33 @@ int main() {
 								std::cerr << "Failed to read bosstime!" << std::endl;
 							}
 
+							//LEVEL
+							if (ReadProcessMemory(hProcess, (BYTE*)level_pointer, &level, sizeof(level), &bytesRead) && bytesRead == sizeof(level)) {
+								#ifdef DEBUG
+									std::cout << "Player's level: "<< std::to_string(level) << std::endl;
+								#endif
+							}
+							else {
+									std::cout << "Failed to read bosstime!" << std::endl;
+							}
+
 							//Soul recovery check
 							if (ReadProcessMemory(hProcess, (BYTE*)souls_pointer, &souls, sizeof(souls), &bytesRead) && bytesRead == sizeof(souls)) {
 								if (ReadProcessMemory(hProcess, (BYTE*)total_souls_pointer, &total_souls, sizeof(total_souls), &bytesRead) && bytesRead == sizeof(total_souls)) {
 									#ifdef DEBUG
-										std::cout << "Current souls: " << souls << "\tTotal souls: " << total_souls << std::endl;
-										std::cout << "P.Current souls: " << prev_souls << "\tP.Total souls: " << prev_total_souls << std::endl;
+										std::cout << "Current souls: " << std::to_string(souls) << "\tTotal souls: " << std::to_string(total_souls) << std::endl;
+										std::cout << "P.Current souls: " << std::to_string(prev_souls) << "\tP.Total souls: " << std::to_string(prev_total_souls) << std::endl;
 									#endif
 
 									if (prev_souls == 0 && prev_total_souls == 0) {
 									}
 									else {
 										int diff = souls - prev_souls;
-										if (!(total_souls == diff + prev_total_souls)) {
+										if (total_souls < diff + prev_total_souls) {
+											std::stringstream log;
 											std::cout << "Player recovered souls!\t\t(" <<playtime_string <<")" << std::endl;
+											log << "###\n" << std::to_string(diff) << "\n" << playtime_string << "\n";
+											WriteToLog(Player_ID,log.str());
 										}
 									}
 									prev_souls = souls;
@@ -1054,6 +1127,14 @@ int main() {
 								if (log_lock == 0) {
 									log_lock = 1;
 									std::string bonfire_name = BonfirePlace(hProcess, baseAddress);
+									std::stringstream log;
+									log << "##\n" << bonfire_name << "\n"
+										<< std::to_string(level) << "\n"
+										<< std::to_string(souls) << "\n"
+										<< std::to_string(total_souls) << "\n"
+										<< playtime_string<< "\n";
+									WriteToLog(Player_ID, log.str());
+									
 									std::cout << "Player is resting at " << bonfire_name << " bonfire!\t\t(" << playtime_string << ")" << std::endl;
 
 								}
@@ -1064,7 +1145,7 @@ int main() {
 
 							#ifdef DEBUG
 								std::cout << std::endl;
-								Sleep(1500);
+								//Sleep(1500);
 							#endif 
 								Sleep(1000);
 
@@ -1077,8 +1158,11 @@ int main() {
 								if (death_time != playtime) {
 									death_time = playtime;
 									if (deathnum != printed_death) {
-										std::cout << "Player died! [" << deathnum << "]\t\t(" << playtime_string << ")" << std::endl;
+										std::stringstream log;
+										std::cout << "Player died! [" << std::to_string(deathnum) << "]\t\t(" << playtime_string << ")" << std::endl;
 										printed_death = deathnum;
+										log << "#\n" << std::to_string(deathnum) << "\n" << playtime_string << "\n";
+										WriteToLog(Player_ID, log.str());
 									}
 								}
 								
@@ -1120,7 +1204,3 @@ int main() {
 
 	return 0;
 }
-//RECOVERED SOULS:
-//item vásárláskor és menübe lépéskor nem jó
-//BOSSFIGHT:
-//többször kiírja a szöveget egy loopban
