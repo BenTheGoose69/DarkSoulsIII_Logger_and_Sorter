@@ -1144,7 +1144,7 @@ int main() {
 									}
 									else {
 										int diff = souls - prev_souls;
-										if (total_souls < diff + prev_total_souls && diff >= 0) {
+										if (total_souls < diff + prev_total_souls && diff > 0) {
 											std::stringstream log;
 											std::cout << "Player recovered souls!\t\t(" <<playtime_string <<")" << std::endl;
 											log << "###\n" << std::to_string(diff) << "\n" << playtime_string << "\n";

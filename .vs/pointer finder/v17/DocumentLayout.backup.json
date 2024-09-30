@@ -38,13 +38,9 @@
           ]
         },
         {
-          "DockedWidth": 275,
-          "SelectedChildIndex": 2,
+          "DockedWidth": 269,
+          "SelectedChildIndex": 1,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
@@ -63,9 +59,9 @@
               "Title": "main.cpp",
               "DocumentMoniker": "C:\\Users\\Bendi\\source\\repos\\Dark_souls_pointers\\pointer finder\\main.cpp",
               "RelativeDocumentMoniker": "pointer finder\\main.cpp",
-              "ToolTip": "C:\\Users\\Bendi\\source\\repos\\Dark_souls_pointers\\pointer finder\\main.cpp*",
-              "RelativeToolTip": "pointer finder\\main.cpp*",
-              "ViewState": "AgIAAGQEAAAAAAAAAAAAAHoEAAA2AAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\Bendi\\source\\repos\\Dark_souls_pointers\\pointer finder\\main.cpp",
+              "RelativeToolTip": "pointer finder\\main.cpp",
+              "ViewState": "AgIAAGQEAAAAAAAAAAAQwHoEAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-09-17T13:21:42.828Z",
               "EditorCaption": ""
@@ -73,7 +69,7 @@
           ]
         },
         {
-          "DockedWidth": 65,
+          "DockedWidth": 71,
           "SelectedChildIndex": 0,
           "Children": [
             {
