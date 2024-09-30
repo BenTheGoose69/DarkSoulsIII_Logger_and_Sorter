@@ -9,8 +9,11 @@
 #include <fstream>
 //#define DEBUG
 
-
-// Function to get the process ID by name
+/**
+ * @brief Function to get the process ID by name
+ *
+ * @returns Process ID
+ */
 DWORD GetProcessID(const wchar_t* process_name) {
 	DWORD processID = 0;
 	HANDLE hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -30,7 +33,11 @@ DWORD GetProcessID(const wchar_t* process_name) {
 	return processID;
 }
 
-// Function to get the base address of the module (DarkSoulsIII.exe)
+/**
+ * @brief Function to get the base address of a module (DarkSoulsIII.exe)
+ *
+ * @returns Base address
+ */
 DWORD64 GetModuleBaseAddress(DWORD processID, const wchar_t* module_name) {
 	DWORD64 baseAddress = 0;
 	HANDLE hModuleSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, processID);
@@ -50,7 +57,13 @@ DWORD64 GetModuleBaseAddress(DWORD processID, const wchar_t* module_name) {
 	return baseAddress;
 }
 
-
+/**
+ * @brief This function stores all the preset initial offsets, depending on what you need to use
+ *
+ * @param 4 options: WorldChrMan , GameDataMan , GameMan , SprjEventFlagMan
+ *
+ * @returns The initial offset, that needs to be added to base address
+ */
 int GetInitialOffset(std::string name) {
 	if (name == "WorldChrMan") {
 		return 0x0477FDB8;
@@ -66,7 +79,17 @@ int GetInitialOffset(std::string name) {
 	}
 }
 
-
+/**
+ * @brief Finds a specific pointer to a memory address
+ *
+ * @param process_handle The handle of the process
+ * @param base_address THe base address of the process
+ * @param initial_offset The initial offset
+ * @param offsets offsets that need to be added to base address + initial offset
+ * @param offset_amount tha amount of offsets in offsets array
+ *
+ * @returns
+ */
 DWORD64 FindPointer(HANDLE process_handle, DWORD64 base_address, int initial_offset, std::vector<DWORD> offsets, int offset_amount) {
 	// base address + initial offset
 	DWORD64 pointer = base_address + initial_offset;
@@ -97,7 +120,6 @@ DWORD64 FindPointer(HANDLE process_handle, DWORD64 base_address, int initial_off
 
 	return pointer;
 }
-
 
 /**
  * @brief It gives back a specific pointer, according to what number is given
@@ -205,7 +227,11 @@ DWORD64 FindSpecificPointer(HANDLE process_handle, DWORD64 base_address, int num
 
 }
 
-
+/**
+ * @brief Finds the character's name and the SteamID of the player
+ *
+ * @returns Character's_name[SteamID].txt
+ */
 std::string GetPlayerID(HANDLE process_handle, DWORD64 base_address) {
 
 	SIZE_T bytesRead;
@@ -260,7 +286,11 @@ std::string GetPlayerID(HANDLE process_handle, DWORD64 base_address) {
 	return PlayerID;
 }
 
-
+/**
+ * @brief Scan's the memory for the last bonfire
+ *
+ * @returns Name of last bonfire rested at
+ */
 std::string BonfirePlace(HANDLE process_handle, DWORD64 base_address) {
 	SIZE_T bytesRead;
 
@@ -550,7 +580,11 @@ std::string BonfirePlace(HANDLE process_handle, DWORD64 base_address) {
 
 }
 
-
+/**
+ * @brief Scans all the boss flags
+ *
+ * @returns a vector containing info about bosses (defeated or not)
+ */
 std::vector<int> GetBossVector(HANDLE process_handle, DWORD64 base_address) {
 	SIZE_T bytesRead;
 	std::vector<int> boss_vector;
@@ -744,7 +778,11 @@ std::vector<int> GetBossVector(HANDLE process_handle, DWORD64 base_address) {
 	return boss_vector;
 }
 
-
+/**
+ * @brief Compares 2 boss vectors, looks for difference
+ *
+ * @returns If there is a difference, it means a boss was defeated
+ */
 std::string CompareBossVectors(std::vector<int> boss_vector_start, std::vector<int> boss_vector_end) {
 	int boss_num = -1;
 	for (int i = 0; i < boss_vector_start.capacity(); i++) {
@@ -840,7 +878,11 @@ std::string CompareBossVectors(std::vector<int> boss_vector_start, std::vector<i
 	return boss_name;
 }
 
-
+/**
+ * @brief Converts miliseconds that were from the memroy address
+ *
+ * @returns a full string with format HH:MM:SS
+ */
 std::string convertMilliseconds(long long milliseconds) {
 	#ifdef DEBUG
 		std::cout << milliseconds << std::endl; //<< std::dec;
@@ -868,35 +910,38 @@ std::string convertMilliseconds(long long milliseconds) {
 	return playtime;
 }
 
-/*
-* Explanation for the logging:
-*
-* #
-* death number
-* when it happened
-* 
-* ##
-* resting at which bonfire
-* current level
-* current souls
-* total souls
-* when it happened
-* 
-* ###
-* recovered souls
-* when it happened
-* 
-* ####
-* ENTERED / DIED / DEFEATED (bossfights)
-* boss name / NIL
-* when it happened
-* Boss name
-*/
+/**
+ * @brief Writes to a log file
+ */
 void WriteToLog(std::string filename, std::string message) {
 	std::ofstream My_file;
 	My_file.open(filename, std::ios::app);
 	My_file << message;
 	My_file.close();
+	/*
+	* Explanation for the logging:
+	*
+	* #
+	* death number
+	* when it happened
+	*
+	* ##
+	* resting at which bonfire
+	* current level
+	* current souls
+	* total souls
+	* when it happened
+	*
+	* ###
+	* recovered souls
+	* when it happened
+	*
+	* ####
+	* ENTERED / DIED / DEFEATED (bossfights)
+	* boss name / NIL
+	* when it happened
+	* Boss name
+	*/
 }
 
 int main() {
@@ -912,8 +957,8 @@ int main() {
 		DWORD64 baseAddress = GetModuleBaseAddress(process_ID, module_name);
 		if (baseAddress) {
 
-
-			HANDLE hProcess = OpenProcess(PROCESS_VM_READ, FALSE, process_ID); // Open the process with read permissions
+			// Open the process with read permissions
+			HANDLE hProcess = OpenProcess(PROCESS_VM_READ, FALSE, process_ID); 
 			if (hProcess) {
 
 
@@ -1039,6 +1084,7 @@ int main() {
 										std::cout << "Player is in a bossfight!" << std::endl;
 									#endif
 
+									//If player is in a bossfight and not logged
 									if (active_fighting == 0) {
 										std::stringstream log;
 										active_fighting = 1;
@@ -1098,7 +1144,7 @@ int main() {
 									}
 									else {
 										int diff = souls - prev_souls;
-										if (total_souls < diff + prev_total_souls) {
+										if (total_souls < diff + prev_total_souls && diff >= 0) {
 											std::stringstream log;
 											std::cout << "Player recovered souls!\t\t(" <<playtime_string <<")" << std::endl;
 											log << "###\n" << std::to_string(diff) << "\n" << playtime_string << "\n";

@@ -38,9 +38,13 @@
           ]
         },
         {
-          "DockedWidth": 275,
-          "SelectedChildIndex": 1,
+          "DockedWidth": 218,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
@@ -61,7 +65,7 @@
               "RelativeDocumentMoniker": "pointer finder\\main.cpp",
               "ToolTip": "C:\\Users\\Bendi\\source\\repos\\Dark_souls_pointers\\pointer finder\\main.cpp",
               "RelativeToolTip": "pointer finder\\main.cpp",
-              "ViewState": "AQIAAFUEAAAAAAAAAAAAAGUEAAAoAAAA",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHoEAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-09-17T13:21:42.828Z",
               "EditorCaption": ""
@@ -69,7 +73,7 @@
           ]
         },
         {
-          "DockedWidth": 65,
+          "DockedWidth": 122,
           "SelectedChildIndex": 0,
           "Children": [
             {
@@ -80,7 +84,7 @@
               "RelativeDocumentMoniker": "pointer finder\\Text.txt",
               "ToolTip": "C:\\Users\\Bendi\\source\\repos\\Dark_souls_pointers\\pointer finder\\Text.txt",
               "RelativeToolTip": "pointer finder\\Text.txt",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAQAAAA",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
               "WhenOpened": "2024-09-17T13:25:07.719Z",
               "EditorCaption": ""
