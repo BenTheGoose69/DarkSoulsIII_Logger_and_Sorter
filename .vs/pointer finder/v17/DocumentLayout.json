@@ -3,15 +3,15 @@
   "WorkspaceRootPath": "C:\\Users\\Bendi\\source\\repos\\Dark_souls_pointers\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{11D444BC-70A0-4039-9CEC-AA2513BB7424}|pointer finder\\pointer finder.vcxproj|C:\\Users\\Bendi\\Downloads\\Icon.ico||{177559E0-D141-11D0-92DF-00A0C9138C45}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{11D444BC-70A0-4039-9CEC-AA2513BB7424}|pointer finder\\pointer finder.vcxproj|C:\\Users\\Bendi\\source\\repos\\Dark_souls_pointers\\pointer finder\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{11D444BC-70A0-4039-9CEC-AA2513BB7424}|pointer finder\\pointer finder.vcxproj|solutionrelative:pointer finder\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{11D444BC-70A0-4039-9CEC-AA2513BB7424}|pointer finder\\pointer finder.vcxproj|C:\\Users\\Bendi\\source\\repos\\Dark_souls_pointers\\pointer finder\\Text.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{11D444BC-70A0-4039-9CEC-AA2513BB7424}|pointer finder\\pointer finder.vcxproj|solutionrelative:pointer finder\\Text.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\include\\vector||{3B902123-F8A7-4915-9F01-361F908088D0}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -29,52 +29,47 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Bookmark",
               "Name": "ST:128:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
             }
           ]
         },
         {
-          "DockedWidth": 269,
-          "SelectedChildIndex": 1,
+          "DockedWidth": 432,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "vector",
-              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\include\\vector",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\include\\vector",
-              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\include\\vector",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\include\\vector",
-              "ViewState": "AQIAAFgIAAAAAAAAAAAjwGYIAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-09-17T18:10:01.382Z"
+              "DocumentIndex": 0,
+              "Title": "Icon.ico - Icon [256x256, 32 bit, PNG]",
+              "DocumentMoniker": "C:\\Users\\Bendi\\Downloads\\Icon.ico",
+              "RelativeDocumentMoniker": "..\\..\\..\\Downloads\\Icon.ico",
+              "ToolTip": "C:\\Users\\Bendi\\Downloads\\Icon.ico - Icon [256x256, 32 bit, PNG]",
+              "RelativeToolTip": "..\\..\\..\\Downloads\\Icon.ico - Icon [256x256, 32 bit, PNG]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001525|",
+              "WhenOpened": "2024-11-18T00:26:16.071Z",
+              "EditorCaption": " - Icon [256x256, 32 bit, PNG]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "main.cpp",
               "DocumentMoniker": "C:\\Users\\Bendi\\source\\repos\\Dark_souls_pointers\\pointer finder\\main.cpp",
               "RelativeDocumentMoniker": "pointer finder\\main.cpp",
               "ToolTip": "C:\\Users\\Bendi\\source\\repos\\Dark_souls_pointers\\pointer finder\\main.cpp",
               "RelativeToolTip": "pointer finder\\main.cpp",
-              "ViewState": "AgIAAFAEAAAAAAAAAAAwwHoEAAA9AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-09-17T13:21:42.828Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-18T00:17:50.808Z"
             }
           ]
         },
         {
-          "DockedWidth": 71,
+          "DockedWidth": 10,
           "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Text.txt",
               "DocumentMoniker": "C:\\Users\\Bendi\\source\\repos\\Dark_souls_pointers\\pointer finder\\Text.txt",
               "RelativeDocumentMoniker": "pointer finder\\Text.txt",

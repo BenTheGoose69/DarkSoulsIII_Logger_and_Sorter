@@ -1,15 +1,1 @@
-﻿  main.cpp
-C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(146,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(153,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(162,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(171,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(177,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(183,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(189,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(195,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(202,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(209,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(216,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(746,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bendi\source\repos\Dark_souls_pointers\pointer finder\main.cpp(80,1): warning C4715: 'GetInitialOffset': not all control paths return a value
-  pointer finder.vcxproj -> C:\Users\Bendi\source\repos\Dark_souls_pointers\x64\Debug\pointer finder.exe
+﻿  pointer finder.vcxproj -> C:\Users\Bendi\source\repos\Dark_souls_pointers\x64\Debug\Log Souls III.exe
