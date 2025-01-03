@@ -29,6 +29,12 @@
     <ClInclude Include="resource1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MemoryManipulation.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataGathering.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc">
