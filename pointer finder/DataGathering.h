@@ -866,6 +866,9 @@ void WriteToLog(std::string filename, std::string message) {
 	* boss name / NIL
 	* when it happened
 	* Boss name
+	* 
+	* #####
+	* Sat down to play at what time
 	*/
 }
 

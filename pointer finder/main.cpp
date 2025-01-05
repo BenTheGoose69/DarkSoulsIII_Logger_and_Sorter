@@ -35,6 +35,9 @@ int main() {
 				int printed_death = 0;
 				int waiting = 0;
 
+				//Helps loging the first launch / playtime calculations
+				int launchTime = 0;
+
 				while (GetProcessID(process_name)) {
 					std::string Player_ID = GetPlayerID(hProcess, baseAddress);
 					int log_lock = 0;
@@ -98,6 +101,7 @@ int main() {
 						}
 						while (player_health != 0) {
 
+							
 
 							//HEALTH
 							if (ReadProcessMemory(hProcess, (BYTE*)health_pointer, &player_health, sizeof(player_health), &bytesRead) && bytesRead == sizeof(player_health)) {
@@ -185,7 +189,7 @@ int main() {
 								std::cout << "Failed to read bosstime!" << std::endl;
 							}
 
-							//Soul recovery check
+							//SOUL RECOVERY CHECK
 							if (ReadProcessMemory(hProcess, (BYTE*)souls_pointer, &souls, sizeof(souls), &bytesRead) && bytesRead == sizeof(souls)) {
 								if (ReadProcessMemory(hProcess, (BYTE*)total_souls_pointer, &total_souls, sizeof(total_souls), &bytesRead) && bytesRead == sizeof(total_souls)) {
 #ifdef DEBUG
@@ -208,7 +212,6 @@ int main() {
 									prev_total_souls = total_souls;
 								}
 							}
-
 							else {
 
 								std::cerr << "Failed to read souls!" << std::endl;
@@ -240,6 +243,17 @@ int main() {
 							}
 							else {
 								log_lock = 0;
+							}
+
+							//Playtime flag
+							if (launchTime == 0) {
+								launchTime = 1;
+								std::stringstream log;
+								log << "#####\n"
+									<< playtime_string << "\n";
+								WriteToLog(Player_ID, log.str());
+
+								std::cout << "Logging for this session has started !\t\t(" << playtime_string << ")" << std::endl;
 							}
 
 #ifdef DEBUG
