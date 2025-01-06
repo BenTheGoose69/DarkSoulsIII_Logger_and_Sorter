@@ -160,6 +160,7 @@ int main() {
 								}
 								else {
 									if (active_fighting == 1) {
+										//Sleep(3000);
 										boss_vector_end = GetBossVector(hProcess, baseAddress);
 										active_fighting = 0;
 										std::string boss_name = CompareBossVectors(boss_vector_start, boss_vector_end);

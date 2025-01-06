@@ -1,15 +1,2 @@
-﻿  main.cpp
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\DataGathering.h(61,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\DataGathering.h(68,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\DataGathering.h(77,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\DataGathering.h(86,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\DataGathering.h(92,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\DataGathering.h(98,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\DataGathering.h(104,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\DataGathering.h(110,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\DataGathering.h(117,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\DataGathering.h(124,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\DataGathering.h(131,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\DataGathering.h(667,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\kovac\source\repos\Dark_souls_pointers\pointer finder\DataGathering.h(36): warning C4715: 'GetInitialOffset': not all control paths return a value
+﻿  LINK : C:\Users\kovac\Source\Repos\Dark_souls_pointers\x64\Debug\Log Souls III.exe not found or not built by the last incremental link; performing full link
   pointer finder.vcxproj -> C:\Users\kovac\Source\Repos\Dark_souls_pointers\x64\Debug\Log Souls III.exe

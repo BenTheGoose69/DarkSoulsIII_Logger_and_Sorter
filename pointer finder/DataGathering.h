@@ -9,6 +9,7 @@
 #include <fstream>
 #include "MemoryManipulation.h"
 //#define DEBUG
+//#define DEBUG_BOSS_VECTOR
 
 #ifndef DataGathering
 #define DataGathering
@@ -511,7 +512,7 @@ std::vector<int> GetBossVector(HANDLE process_handle, DWORD64 base_address) {
 	std::vector<int> boss_vector;
 	int initial_offset = GetInitialOffset("SprjEventFlagMan");
 
-#ifdef DEBUG
+#ifdef DEBUG_BOSS_VECTOR
 	std::cout << "[";
 #endif
 
@@ -521,7 +522,7 @@ std::vector<int> GetBossVector(HANDLE process_handle, DWORD64 base_address) {
 		int bit_to_push;
 
 		switch (i) {
-		case 0: //I0udex Gundyr
+		case 0: //Iudex Gundyr
 			offsets.push_back(0x0);
 			offsets.push_back(0x5A67);
 			bit_to_push = 7;
@@ -669,18 +670,18 @@ std::vector<int> GetBossVector(HANDLE process_handle, DWORD64 base_address) {
 		BYTE flagByte = 0;
 		//if (ReadProcessMemory(process_handle, (BYTE*)pointer, &flagByte, sizeof(flagByte), &bytesRead) && bytesRead > 0){
 		if (ReadProcessMemory(process_handle, (BYTE*)pointer, &flagByte, sizeof(flagByte), &bytesRead) && bytesRead == sizeof(flagByte)) {
-			bool isFlagSet = (flagByte & 0x80) != 0;
+			bool isFlagSet = (flagByte & (1 << bit_to_push)) != 0;
 			if (isFlagSet) {
 				boss_vector.push_back(1);
 
-#ifdef DEBUG
+#ifdef DEBUG_BOSS_VECTOR
 				std::cout << true << " , ";
 #endif				
 			}
 			else {
 				boss_vector.push_back(0);
 
-#ifdef DEBUG
+#ifdef DEBUG_BOSS_VECTOR
 				std::cout << false << " , ";
 #endif 
 			}
@@ -692,7 +693,7 @@ std::vector<int> GetBossVector(HANDLE process_handle, DWORD64 base_address) {
 		}
 
 	}
-#ifdef DEBUG
+#ifdef DEBUG_BOSS_VECTOR
 	std::cout << "]" << std::endl;
 #endif 
 
