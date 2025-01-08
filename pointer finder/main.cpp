@@ -337,6 +337,9 @@ int main() {
 				break;
 			case 1:
 				std::cout << ".";
+				break;
+			default:
+				break;
 			}
 
 			Sleep(1500);
