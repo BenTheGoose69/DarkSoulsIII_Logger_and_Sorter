@@ -173,7 +173,9 @@ std::string GetPlayerID(HANDLE process_handle, DWORD64 base_address) {
 		delete[] narrow_str;
 	}
 	else {
+#ifdef DEBUG
 		std::cerr << "Failed to read player's name!" << std::endl << std::endl;
+#endif
 	}
 
 	//STEAMID 0
@@ -196,12 +198,16 @@ std::string GetPlayerID(HANDLE process_handle, DWORD64 base_address) {
 		delete[] narrow_str;
 	}
 	else {
-		std::cerr << "Failed to read player's name!" << std::endl << std::endl;
+#ifdef DEBUG
+		std::cerr << "Failed to read player's Steam ID!" << std::endl << std::endl;
+#endif
 	}
 
 #ifdef DEBUG
 	std::cout << PlayerID << std::endl << std::endl;
 #endif
+
+	
 	return PlayerID;
 }
 
@@ -516,7 +522,7 @@ std::vector<int> GetBossVector(HANDLE process_handle, DWORD64 base_address) {
 	std::cout << "[";
 #endif
 
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < 24; i++) {
 		std::vector<DWORD>offsets;
 		int offset_amount;
 		int bit_to_push;
@@ -642,26 +648,29 @@ std::vector<int> GetBossVector(HANDLE process_handle, DWORD64 base_address) {
 			bit_to_push = 7;
 			break;
 
-			//DLC BOSSES
-			//case 20: //Halflight, Spear of the Church
-			//	offsets.push_back(0x0);
-			//	offsets.push_back(0x7867);
-			//	bit_to_push = 7;
+		case 20: //Halflight, Spear of the Church
+			offsets.push_back(0x0);
+			offsets.push_back(0x7867);
+			bit_to_push = 7;
+			break;
 
-			//case 21: //Darkeater Midir
-			//	offsets.push_back(0x0);
-			//	offsets.push_back(0x7869);
-			//	bit_to_push = 5;
+		case 21: //Darkeater Midir
+			offsets.push_back(0x0);
+			offsets.push_back(0x7869);
+			bit_to_push = 5;
+			break;
 
-			//case 22: //Slave Knight Gael
-			//	offsets.push_back(0x0);
-			//	offsets.push_back(0x7D67);
-			//	bit_to_push = 6;
+		case 22: //Slave Knight Gael
+			offsets.push_back(0x0);
+			offsets.push_back(0x7D67);
+			bit_to_push = 6;
+			break;
 
-			//case 23: //Demon Prince
-			//	offsets.push_back(0x0);
-			//	offsets.push_back(0x7367);
-			//	bit_to_push = 7;
+		case 23: //Demon Prince
+			offsets.push_back(0x0);
+			offsets.push_back(0x7367);
+			bit_to_push = 7;
+			break;
 
 
 		}
@@ -677,22 +686,22 @@ std::vector<int> GetBossVector(HANDLE process_handle, DWORD64 base_address) {
 #ifdef DEBUG_BOSS_VECTOR
 				std::cout << true << " , ";
 #endif				
-			}
+		}
 			else {
 				boss_vector.push_back(0);
 
 #ifdef DEBUG_BOSS_VECTOR
 				std::cout << false << " , ";
 #endif 
-			}
+	}
 
-		}
+}
 		else {
 			std::cerr << "Failed to read the flag value!" << std::endl;
 			boss_vector.push_back(2);
 		}
 
-	}
+		}
 #ifdef DEBUG_BOSS_VECTOR
 	std::cout << "]" << std::endl;
 #endif 
@@ -867,7 +876,7 @@ void WriteToLog(std::string filename, std::string message) {
 	* boss name / NIL
 	* when it happened
 	* Boss name
-	* 
+	*
 	* #####
 	* Sat down to play at what time
 	*/
