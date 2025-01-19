@@ -9,7 +9,7 @@
 #include <fstream>
 #include "MemoryManipulation.h"
 //#define DEBUG
-//#define DEBUG_BOSS_VECTOR
+#define DEBUG_BOSS_VECTOR
 
 #ifndef DataGathering
 #define DataGathering
@@ -609,7 +609,7 @@ std::vector<int> GetBossVector(HANDLE process_handle, DWORD64 base_address) {
 		case 13: //Champion Gundyr
 			offsets.push_back(0x0);
 			offsets.push_back(0x5A64);
-			bit_to_push = 0;
+			bit_to_push = 1;
 			break;
 
 		case 14: //Nameless King

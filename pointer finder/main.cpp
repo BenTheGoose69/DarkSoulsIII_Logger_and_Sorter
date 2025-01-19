@@ -176,6 +176,7 @@ int main() {
 												log << "####\n" << "DEFEATED\n" << boss_name << "\n" << playtime_string << "\n";
 												WriteToLog(Player_ID, log.str());
 											}
+											
 										}
 #ifdef DEBUG
 										std::cout << "Not in a bossfight!" << std::endl;
