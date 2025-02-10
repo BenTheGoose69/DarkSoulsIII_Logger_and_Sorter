@@ -9,7 +9,7 @@
 #include <fstream>
 #include "MemoryManipulation.h"
 //#define DEBUG
-#define DEBUG_BOSS_VECTOR
+//#define DEBUG_BOSS_VECTOR
 
 #ifndef DataGathering
 #define DataGathering
