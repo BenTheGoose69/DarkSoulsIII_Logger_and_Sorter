@@ -9,7 +9,7 @@
 #include <fstream>
 #include "MemoryManipulation.h"
 //#define DEBUG
-//#define DEBUG_BOSS_VECTOR
+#define DEBUG_BOSS_VECTOR
 
 #ifndef DataGathering
 #define DataGathering
@@ -728,7 +728,7 @@ std::string CompareBossVectors(std::vector<int> boss_vector_start, std::vector<i
 	std::string boss_name = "0";
 	switch (boss_num) {
 	case -1:
-		std::cout << "Err" << std::endl;
+		std::cout << "Error finding boss" << std::endl;
 		break;
 	case 0:
 		boss_name = "Iudex Gundyr";

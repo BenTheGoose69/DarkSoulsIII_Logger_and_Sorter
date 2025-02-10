@@ -76,12 +76,12 @@ int main() {
 
 						//CURRENT_SOULS 8
 						DWORD64 souls_pointer = FindSpecificPointer(hProcess, baseAddress, 8);
-						int souls;
+						int souls = 0;
 						int prev_souls = 0;
 
 						//TOTAL SOULS 9
 						DWORD64 total_souls_pointer = FindSpecificPointer(hProcess, baseAddress, 9);
-						int total_souls;
+						int total_souls = 0;
 						int prev_total_souls = 0;
 
 						//LEVEL 10
@@ -149,22 +149,43 @@ int main() {
 
 										//If player is in a bossfight and not logged
 										if (active_fighting == 0) {
-											std::stringstream log;
+											
 											active_fighting = 1;
 											boss_vector_start = GetBossVector(hProcess, baseAddress);
-											std::cout << "Player started a bossfight!\t(" << playtime_string << ")" << std::endl;
-											log << "####\n" << "ENTER\n" << "NIL\n" << playtime_string << "\n";
+											std::stringstream log;
+											log << "####\n" 
+												<< "ENTER\n" 
+												<< "NIL\n" 
+												<< playtime_string 
+												<< "\n";
 											WriteToLog(Player_ID, log.str());
+
+											std::cout << "Player started a bossfight!\t("
+												<< playtime_string << ")"
+												<< std::endl;
 										}
+
+										//If player has started a bossfight and died
 										if (active_fighting == 1 && player_health == 0) {
 											std::stringstream log;
-											std::cout << "Player died in a bossfight!\t(" << playtime_string << ")" << std::endl;
-											log << "####\n" << "DIED\n" << "NIL\n" << playtime_string << "\n";
+											log << "####\n" 
+												<< "DIED\n" 
+												<< "NIL\n" 
+												<< playtime_string 
+												<< "\n";
 											WriteToLog(Player_ID, log.str());
+
+											std::cout << "Player died in a bossfight!\t("
+												<< playtime_string
+												<< ")"
+												<< std::endl;
 										}
 
 									}
+									//If there is no bossfight
 									else {
+
+										//If player started a bossfight
 										if (active_fighting == 1) {
 											//Sleep(3000);
 											boss_vector_end = GetBossVector(hProcess, baseAddress);
@@ -172,9 +193,20 @@ int main() {
 											std::string boss_name = CompareBossVectors(boss_vector_start, boss_vector_end);
 											if (boss_name != "0") {
 												std::stringstream log;
-												std::cout << "Player defeated " << boss_name << "!\t(" << playtime_string << ")" << std::endl;
-												log << "####\n" << "DEFEATED\n" << boss_name << "\n" << playtime_string << "\n";
+												log << "####\n" 
+													<< "DEFEATED\n" 
+													<< boss_name 
+													<< "\n" 
+													<< playtime_string 
+													<< "\n";
 												WriteToLog(Player_ID, log.str());
+
+												std::cout << "Player defeated "
+													<< boss_name
+													<< "!\t("
+													<< playtime_string
+													<< ")"
+													<< std::endl;
 											}
 											
 										}
@@ -211,9 +243,17 @@ int main() {
 											int diff = souls - prev_souls;
 											if (total_souls < diff + prev_total_souls && diff > 0) {
 												std::stringstream log;
-												std::cout << "Player recovered souls!\t\t(" << playtime_string << ")" << std::endl;
-												log << "###\n" << std::to_string(diff) << "\n" << playtime_string << "\n";
+												log << "###\n" 
+													<< std::to_string(diff) 
+													<< "\n" 
+													<< playtime_string 
+													<< "\n";
 												WriteToLog(Player_ID, log.str());
+
+												std::cout << "Player recovered souls!\t\t("
+													<< playtime_string
+													<< ")"
+													<< std::endl;
 											}
 										}
 										prev_souls = souls;
@@ -242,10 +282,17 @@ int main() {
 											<< std::to_string(level) << "\n"
 											<< std::to_string(souls) << "\n"
 											<< std::to_string(total_souls) << "\n"
-											<< playtime_string << "\n";
+											<< playtime_string 
+											<< "\n";
 										WriteToLog(Player_ID, log.str());
 
-										std::cout << "Player is resting at " << bonfire_name << " bonfire!\t\t(" << playtime_string << ")" << std::endl;
+
+										std::cout << "Player is resting at "
+											<< bonfire_name
+											<< " bonfire!\t\t("
+											<< playtime_string
+											<< ")"
+											<< std::endl;
 
 									}
 								}
@@ -258,11 +305,17 @@ int main() {
 									launchTime = 1;
 									std::stringstream log;
 									log << "#####\n"
-										<< playtime_string << "\n";
+										<< playtime_string 
+										<< "\n";
 									WriteToLog(Player_ID, log.str());
 
-									std::cout << "Logging for this session has started !\t\t(" << playtime_string << ")" << std::endl;
-									std::cout << "Writing logs to: " << Player_ID << std::endl;
+									std::cout << "Logging for this session has started !\t\t("
+										<< playtime_string << ")"
+										<< std::endl;
+
+									std::cout << "Writing logs to: "
+										<< Player_ID
+										<< std::endl;
 								}
 
 #ifdef DEBUG
@@ -280,11 +333,21 @@ int main() {
 									if (death_time != playtime) {
 										death_time = playtime;
 										if (deathnum != printed_death) {
-											std::stringstream log;
-											std::cout << "Player died! [" << std::to_string(deathnum) << "]\t\t(" << playtime_string << ")" << std::endl;
 											printed_death = deathnum;
-											log << "#\n" << std::to_string(deathnum) << "\n" << playtime_string << "\n";
+											std::stringstream log;
+											log << "#\n" 
+												<< std::to_string(deathnum) 
+												<< "\n" << playtime_string 
+												<< "\n";
 											WriteToLog(Player_ID, log.str());
+
+											std::cout << "Player died! ["
+												<< std::to_string(deathnum)
+												<< "]\t\t("
+												<< playtime_string
+												<< ")"
+												<< std::endl;
+
 										}
 									}
 
