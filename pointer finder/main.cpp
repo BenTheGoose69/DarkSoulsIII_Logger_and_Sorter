@@ -355,7 +355,7 @@ int main() {
 								else {
 									std::cout << "Failed to read deathnum!" << std::endl << std::endl;
 								}
-								Sleep(1500);
+								//Sleep(1500);
 							}
 						}
 
