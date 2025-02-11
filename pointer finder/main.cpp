@@ -15,16 +15,31 @@ int main() {
 	const wchar_t* process_name = L"DarkSoulsIII.exe";
 	const wchar_t* module_name = L"DarkSoulsIII.exe";
 
-	int started = 0;
-	while (started != 2) {
+	std::cout << R"( 
+
+   _        _______  _______      _______  _______           _        _______ 
+  ( \      (  ___  )(  ____ \    (  ____ \(  ___  )|\     /|( \      (  ____ \
+  | (      | (   ) || (    \/    | (    \/| (   ) || )   ( || (      | (    \/
+  | |      | |   | || |          | (_____ | |   | || |   | || |      | (_____ 
+  | |      | |   | || | ____     (_____  )| |   | || |   | || |      (_____  )
+  | |      | |   | || | \_  )          ) || |   | || |   | || |            ) |
+  | (____/\| (___) || (___) |    /\____) || (___) || (___) || (____/\/\____) |
+  (_______/(_______)(_______)    \_______)(_______)(_______)(_______/\_______)
+
+    )" << std::endl;
+                                                                          
+
+	int game_started = 0;
+	while (game_started != -1) {
 		// ProcessID (PID) of the game
 		DWORD process_ID = GetProcessID(process_name);
 
 
 		if (process_ID) {
 
-			started = 2;
-			std::cout << " Game started!" << std::endl;
+			game_started = -1;
+			std::cout << "\rWaiting for the game to be launched... Game started!" << std::endl;
+			Sleep(3000);
 
 			DWORD64 baseAddress = GetModuleBaseAddress(process_ID, module_name);
 			if (baseAddress) {
@@ -38,7 +53,7 @@ int main() {
 
 
 					int printed_death = 0;
-					int waiting = 0;
+					int waiting_for_pointers = 0;
 
 					//Helps loging the first launch / playtime calculations
 					int launchTime = 0;
@@ -68,7 +83,7 @@ int main() {
 						//BOSSTIME 6
 						DWORD64 bosstime_pointer = FindSpecificPointer(hProcess, baseAddress, 6);
 						unsigned in_a_bossfight = 0;
-						unsigned boss_log = 0;
+						unsigned boss_logged = 1;
 
 						unsigned active_fighting = 0;
 						std::vector<int> boss_vector_start;
@@ -100,14 +115,11 @@ int main() {
 #endif
 
 						if (health_pointer) {
-							if (waiting == 1) {
-								waiting = 0;
-								std::cout << " Pointers found!" << std::endl;
-								
+							if (waiting_for_pointers != 0) {
+								waiting_for_pointers = 0;
+								std::cout << "\rWaiting for pointers... Pointers found"<< std::endl << std::flush;
 							}
-							while (player_health != 0) {
-
-
+							while (player_health > 0) {
 
 								//HEALTH
 								if (ReadProcessMemory(hProcess, (BYTE*)health_pointer, &player_health, sizeof(player_health), &bytesRead) && bytesRead == sizeof(player_health)) {
@@ -140,17 +152,18 @@ int main() {
 									std::cerr << "Failed to read player's playtime!" << std::endl;
 								}
 
+
 								//BOSSTIME
 								if (ReadProcessMemory(hProcess, (BYTE*)bosstime_pointer, &in_a_bossfight, sizeof(in_a_bossfight), &bytesRead) && bytesRead == sizeof(in_a_bossfight)) {
 									if (in_a_bossfight == 1) {
 #ifdef DEBUG
 										std::cout << "Player is in a bossfight!" << std::endl;
 #endif
-
 										//If player is in a bossfight and not logged
-										if (active_fighting == 0) {
+										if (active_fighting == 0 && boss_logged == 0) {
 											
 											active_fighting = 1;
+											
 											boss_vector_start = GetBossVector(hProcess, baseAddress);
 											std::stringstream log;
 											log << "####\n" 
@@ -165,28 +178,33 @@ int main() {
 												<< std::endl;
 										}
 
-										//If player has started a bossfight and died
-										if (active_fighting == 1 && player_health == 0) {
-											std::stringstream log;
-											log << "####\n" 
-												<< "DIED\n" 
-												<< "NIL\n" 
-												<< playtime_string 
+										if (player_health <= 0 && boss_logged == 0) {
+
+											std::stringstream log1;
+											log1 << "####\n"
+												<< "DIED\n"
+												<< "NIL\n"
+												<< playtime_string
 												<< "\n";
-											WriteToLog(Player_ID, log.str());
+											WriteToLog(Player_ID, log1.str());
 
 											std::cout << "Player died in a bossfight!\t("
 												<< playtime_string
 												<< ")"
 												<< std::endl;
+
+
 										}
+
+										
 
 									}
 									//If there is no bossfight
 									else {
-
-										//If player started a bossfight
-										if (active_fighting == 1) {
+										boss_logged = 0;
+										
+										//If player started a bossfight and logged the start
+										if (active_fighting == 1 ) {
 											//Sleep(3000);
 											boss_vector_end = GetBossVector(hProcess, baseAddress);
 											active_fighting = 0;
@@ -210,6 +228,7 @@ int main() {
 											}
 											
 										}
+										
 #ifdef DEBUG
 										std::cout << "Not in a bossfight!" << std::endl;
 #endif 
@@ -218,6 +237,7 @@ int main() {
 								else {
 									std::cerr << "Failed to read bosstime!" << std::endl;
 								}
+
 
 								//LEVEL
 								if (ReadProcessMemory(hProcess, (BYTE*)level_pointer, &level, sizeof(level), &bytesRead) && bytesRead == sizeof(level)) {
@@ -228,6 +248,7 @@ int main() {
 								else {
 									std::cout << "Failed to read bosstime!" << std::endl;
 								}
+
 
 								//SOUL RECOVERY CHECK
 								if (ReadProcessMemory(hProcess, (BYTE*)souls_pointer, &souls, sizeof(souls), &bytesRead) && bytesRead == sizeof(souls)) {
@@ -325,14 +346,18 @@ int main() {
 								Sleep(1000);
 
 							}
-							Sleep(3000);
+							//Sleep(3000);
 
 							//DEAD
-							if (player_health == 0) {
+							if (player_health <= 0) {
 								if (ReadProcessMemory(hProcess, (BYTE*)deathnum_pointer, &deathnum, sizeof(deathnum), &bytesRead) && bytesRead == sizeof(deathnum)) {
+									
 									if (death_time != playtime) {
 										death_time = playtime;
 										if (deathnum != printed_death) {
+
+											
+
 											printed_death = deathnum;
 											std::stringstream log;
 											log << "#\n" 
@@ -347,33 +372,45 @@ int main() {
 												<< playtime_string
 												<< ")"
 												<< std::endl;
-
+								
 										}
+
 									}
 
 								}
 								else {
 									std::cout << "Failed to read deathnum!" << std::endl << std::endl;
 								}
-								//Sleep(1500);
+								//Sleep(2000);
 							}
 						}
 
 						else {
-							switch (waiting)
+							switch (waiting_for_pointers)
 							{
 							case 0:
-								std::cerr << "Waiting for pointers...";
-								waiting = 1;
+								std::cout << "\rWaiting for pointers   ";
+								std::cout << "\rWaiting for pointers";
+								waiting_for_pointers++;
 								break;
 
 							case 1:
-								std::cerr << ".";
+								std::cout << ".";
+								waiting_for_pointers++;
+								break;
+							case 2:
+								std::cout << ".";
+								waiting_for_pointers++;
+								break;
+							case 3:
+								std::cout << ".";
+								waiting_for_pointers=0;
 								break;
 							}
-
 							Sleep(1000);
+							
 						}
+										
 
 					}
 
@@ -392,21 +429,31 @@ int main() {
 			}
 		}
 		else {
-			//Waiting to launch the game
-			switch (started)
+			//waiting_for_pointers to launch the game
+			switch (game_started)
 			{
 			case 0:
-				std::cout << "Waiting for the game to be launched..";
-				started++;
+				std::cout << "\rWaiting for the game to be launched   ";
+				std::cout << "\rWaiting for the game to be launched";
+				game_started++;
 				break;
 			case 1:
 				std::cout << ".";
+				game_started++;
+				break;
+			case 2:
+				std::cout << ".";
+				game_started++;
+				break;
+			case 3:
+				std::cout << ".";
+				game_started= 0;
 				break;
 			default:
 				break;
 			}
 
-			Sleep(1500);
+			Sleep(800);
 
 
 			// Failed to get the process ID
