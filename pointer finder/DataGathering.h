@@ -663,7 +663,7 @@ std::vector<int> GetBossVector(HANDLE process_handle, DWORD64 base_address) {
 		case 22: //Slave Knight Gael
 			offsets.push_back(0x0);
 			offsets.push_back(0x7D67);
-			bit_to_push = 6;
+			bit_to_push = 7;
 			break;
 
 		case 23: //Demon Prince

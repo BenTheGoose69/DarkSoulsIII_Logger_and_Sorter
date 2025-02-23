@@ -119,7 +119,7 @@ int main() {
 								waiting_for_pointers = 0;
 								std::cout << "\rWaiting for pointers... Pointers found"<< std::endl << std::flush;
 							}
-							while (player_health > 0) {
+							while (player_health > 0 && player_health < 2122) {
 
 								//HEALTH
 								if (ReadProcessMemory(hProcess, (BYTE*)health_pointer, &player_health, sizeof(player_health), &bytesRead) && bytesRead == sizeof(player_health)) {
