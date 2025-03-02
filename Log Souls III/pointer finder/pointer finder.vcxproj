@@ -134,7 +134,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Text.txt" />
+    <Text Include="Pointer infos.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataGathering.h" />
