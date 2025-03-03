@@ -1,6 +1,8 @@
 import os
 import sqlite3
 from datetime import datetime
+import sys
+import time
 
 DB_FILE = "Logging_data.db"
 UNPROCESSED_DATA = "Unprocessed_data"
@@ -27,10 +29,10 @@ def create_database():
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       player_id INTEGER,
       status VARCHAR(10),
-      death_count INTEGER NULL,
       boss_name VARCHAR(30),
       timestamp TIMESTAMP,
       FOREIGN KEY (player_id) REFERENCES player (id)
+      UNIQUE(player_id, status ,timestamp)
     );
 
     CREATE TABLE IF NOT EXISTS bonfires (
@@ -41,6 +43,7 @@ def create_database():
       total_souls INTEGER,
       timestamp TIMESTAMP,
       FOREIGN KEY (player_id) REFERENCES player (id)
+      UNIQUE(player_id, bonfire_name,timestamp)
     );
 
     CREATE TABLE IF NOT EXISTS sessions (
@@ -48,6 +51,7 @@ def create_database():
       player_id INTEGER,
       playtime_start TIMESTAMP,
       FOREIGN KEY (player_id) REFERENCES player (id)
+      UNIQUE(player_id, playtime_start)
     );
     """
     )
@@ -77,8 +81,15 @@ def organise_data(file, file_path):
 
     player_data = check_player_in_database(player_data)
 
+    print(player_data["character_name"], player_data["steam_id"])
+
     lines = iter(file)
-    for line in lines:
+    for i, line in enumerate(lines, 1):
+        sys.stdout.write(f"\r\033[1;31mLines Scanned: {i}\033[0m")
+        sys.stdout.flush()
+
+        if not line.strip():
+            continue
 
         timestamp = ""
         match line.strip():
@@ -113,26 +124,33 @@ def organise_data(file, file_path):
                 player_data["total_soul_recovery_time"] += 1
                 recovered_souls = int(next(lines).strip())
                 timestamp = next(lines).strip()
-                print(f"Player recovered [{recovered_souls}] souls at {timestamp} ")
+
+                # print(f"Player recovered [{recovered_souls}] souls at {timestamp} ")
 
             # Bossfight
             case "####":
                 bossfight_status = next(lines).strip()
                 boss_name = next(lines).strip()
                 timestamp = next(lines).strip()
-                print(f"Player {bossfight_status} {boss_name} at {timestamp} ")
+                add_bossfight(player_data["id"], bossfight_status, boss_name, timestamp)
+
+                # print(f"Player {bossfight_status} {boss_name} at {timestamp} ")
 
             # Session start
             case "#####":
                 timestamp = next(lines).strip()
-                print(f"Player started playing at {timestamp} ")
+                add_session(player_data["id"], timestamp)
 
-        if timestamp > player_data["total_playtime"]:
+                # print(f"Player started playing at {timestamp} ")
+
+        if str(timestamp) > str(player_data["total_playtime"]):
             player_data["total_playtime"] = timestamp
 
-    print(f"Total deaths: {player_data['total_death']} ")
-    print(f"Total soul recoveries: {player_data['total_soul_recovery_time']} ")
-    print(player_data)
+    print()
+
+    # print(f"Total deaths: {player_data['total_death']} ")
+    # print(f"Total soul recoveries: {player_data['total_soul_recovery_time']} ")
+    # print(player_data)
 
     update_player_in_database(player_data)
 
@@ -149,7 +167,6 @@ def check_player_in_database(player_data):
     result = cursor.fetchone()
 
     if result:
-        print(result)
         player_data["id"] = result[0]
         (
             player_data["total_playtime"],
@@ -178,7 +195,8 @@ def update_player_in_database(player_data):
         """
         UPDATE player 
         SET total_playtime = ?, total_death = ?, total_soul_recovery_time = ?, total_souls = ? 
-        WHERE steam_id = ? AND character_name = ?""",
+        WHERE steam_id = ? AND character_name = ?
+        """,
         (
             player_data["total_playtime"],
             player_data["total_death"],
@@ -196,8 +214,42 @@ def add_bonfire_rest(player_id, bonfire_name, level, total_souls, timestamp):
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute(
-        "INSERT INTO bonfires (player_id, bonfire_name, level, total_souls, timestamp) VALUES (?,?,?,?, ?)",
+        "INSERT  OR IGNORE INTO bonfires (player_id, bonfire_name, level, total_souls, timestamp) VALUES (?,?,?,?, ?)",
         (player_id, bonfire_name, level, total_souls, timestamp),
+    )
+    conn.commit()
+
+
+def add_bossfight(player_id, bossfight_status, boss_name, timestamp):
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT  OR IGNORE INTO bossfights (player_id, status, boss_name, timestamp) VALUES (?,?,?,?)",
+        (player_id, bossfight_status, boss_name, timestamp),
+    )
+    conn.commit()
+
+    if boss_name != "NIL":
+        cursor.execute(
+            "SELECT boss_name FROM bossfights WHERE player_id = ? AND boss_name = ?",
+            (player_id, boss_name),
+        )
+        result = cursor.fetchall()
+        if result.count((boss_name,)) < 2:
+            cursor.execute(
+                "UPDATE bossfights SET boss_name = ? WHERE player_id = ? AND boss_name = 'NIL'",
+                (boss_name, player_id),
+            )
+            conn.commit()
+    conn.close()
+
+
+def add_session(player_id, timestamp):
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT OR IGNORE INTO sessions (player_id, playtime_start) VALUES (?,?)",
+        (player_id, timestamp),
     )
     conn.commit()
 
@@ -205,13 +257,15 @@ def add_bonfire_rest(player_id, bonfire_name, level, total_souls, timestamp):
 def process_txt_files(directory):
     for filename in os.listdir(directory):
         if filename.endswith(".txt"):
-            print(os.path.join(directory, filename))
+            # print(os.path.join(directory, filename))
             parse_txt_files(os.path.join(directory, filename))
 
 
 def main():
+    print("Data organisation started...")
     create_database()
     process_txt_files(UNPROCESSED_DATA)
+    print("Organisation finished")
 
 
 if __name__ == "__main__":
