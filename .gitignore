@@ -398,3 +398,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+
+# Data files
+Data Organiser/Processed_data/
+Data Organiser/Unprocessed_data/
+Data Organiser/Logging_data.db
