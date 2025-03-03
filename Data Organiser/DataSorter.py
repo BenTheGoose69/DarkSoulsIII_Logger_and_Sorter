@@ -182,34 +182,6 @@ def update_player_data(player_data):
     conn.close()
 
 
-"""
-* Explanation for the logging:
-*
-* #
-* death number
-* when it happened
-*
-* ##
-* resting at which bonfire
-* current level
-* current souls
-* total souls
-* when it happened
-*
-* ###
-* recovered souls
-* when it happened
-*
-* ####
-* ENTERED / DIED / DEFEATED (bossfights)
-* boss name / NIL
-* when it happened
-*
-* #####
-* Sat down to play at what time
-"""
-
-
 def process_txt_files(directory):
     for filename in os.listdir(directory):
         if filename.endswith(".txt"):

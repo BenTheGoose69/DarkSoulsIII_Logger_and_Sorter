@@ -402,5 +402,7 @@ FodyWeavers.xsd
 
 # Data files
 Processed_data/*
+!Processed_data/.gitkeep
 Unprocessed_data/*
+!Unprocessed_data/.gitkeep
 "Data Organiser/Logging_data.db"
