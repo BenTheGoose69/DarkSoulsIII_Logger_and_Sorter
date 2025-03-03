@@ -430,7 +430,7 @@ std::string BonfirePlace(HANDLE process_handle, DWORD64 base_address) {
 		bonfire_name = "Flameless Shrine";
 		return bonfire_name;
 	case 4102951:
-		bonfire_name = "Klin of the First Flame";
+		bonfire_name = "Kiln of the First Flame";
 		return bonfire_name;
 	case 4102952:
 		bonfire_name = "The First Flame";
@@ -857,28 +857,27 @@ void WriteToLog(std::string filename, std::string message) {
 	* Explanation for the logging:
 	*
 	* #
-	* death number
-	* when it happened
+	* Death number
+	* Timestamp
 	*
 	* ##
-	* resting at which bonfire
-	* current level
-	* current souls
-	* total souls
-	* when it happened
+	* Resting at which bonfire
+	* Current level
+	* Current souls
+	* Total souls
+	* Timestamp
 	*
 	* ###
-	* recovered souls
-	* when it happened
+	* Recovered souls amount
+	* Timestamp
 	*
 	* ####
 	* ENTERED / DIED / DEFEATED (bossfights)
-	* boss name / NIL
-	* when it happened
-	* Boss name
+	* Boss name / NIL
+	* Timestamp
 	*
 	* #####
-	* Sat down to play at what time
+	* Sat down to play at what time (Timestamp)
 	*/
 }
 

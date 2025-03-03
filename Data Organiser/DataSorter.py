@@ -80,15 +80,17 @@ def organise_data(file, file_path):
     lines = iter(file)
     for line in lines:
 
+        timestamp = ""
         match line.strip():
 
             # Death
             case "#":
                 death_number = int(next(lines).strip())
-                time = next(lines).strip()
-                print(f"Player died [{death_number}] at {time} ")
+                timestamp = next(lines).strip()
                 if death_number > player_data["total_death"]:
                     player_data["total_death"] = death_number
+
+                # print(f"Player died [{death_number}] at {timestamp} ")
 
             # Bonfire
             case "##":
@@ -97,9 +99,14 @@ def organise_data(file, file_path):
                 currrent_souls = int(next(lines).strip())
                 total_souls = int(next(lines).strip())
                 timestamp = next(lines).strip()
-                print(
-                    f"Player rested at [{bonfire_name}] at level [{level}] with [{total_souls}] total souls at {timestamp}"
+
+                add_bonfire_rest(
+                    player_data["id"], bonfire_name, level, total_souls, timestamp
                 )
+                if player_data["total_souls"] < total_souls:
+                    player_data["total_souls"] = total_souls
+
+                # print(f"Player rested at [{bonfire_name}] at level [{level}] with [{total_souls}] total souls at {timestamp}")
 
             # Soul recovery
             case "###":
@@ -117,14 +124,17 @@ def organise_data(file, file_path):
 
             # Session start
             case "#####":
-                session_start = next(lines).strip()
-                print(f"Player started playing at {session_start} ")
+                timestamp = next(lines).strip()
+                print(f"Player started playing at {timestamp} ")
+
+        if timestamp > player_data["total_playtime"]:
+            player_data["total_playtime"] = timestamp
 
     print(f"Total deaths: {player_data['total_death']} ")
     print(f"Total soul recoveries: {player_data['total_soul_recovery_time']} ")
     print(player_data)
 
-    update_player_data(player_data)
+    update_player_in_database(player_data)
 
 
 def check_player_in_database(player_data):
@@ -160,7 +170,7 @@ def check_player_in_database(player_data):
     return player_data
 
 
-def update_player_data(player_data):
+def update_player_in_database(player_data):
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
 
@@ -180,6 +190,16 @@ def update_player_data(player_data):
     )
     conn.commit()
     conn.close()
+
+
+def add_bonfire_rest(player_id, bonfire_name, level, total_souls, timestamp):
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT INTO bonfires (player_id, bonfire_name, level, total_souls, timestamp) VALUES (?,?,?,?, ?)",
+        (player_id, bonfire_name, level, total_souls, timestamp),
+    )
+    conn.commit()
 
 
 def process_txt_files(directory):
