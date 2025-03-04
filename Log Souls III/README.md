@@ -1,7 +1,7 @@
 # Log Souls III
 ## How to use
 
-[Link Text](##explanation-for-logging).
+[Link Text](#explanation-for-logging).
 
 
 
