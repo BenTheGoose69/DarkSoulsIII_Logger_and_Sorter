@@ -9,3 +9,6 @@ It extracts and organizes gameplay data from the .txt files, into a structured .
 4. It will organise the data into a _Logging_data.db_ file
 5. After the data was extracted, it will put the .txt files into the
 [Processed_data](https://github.com/BenTheGoose69/DarkSoulsIII_Logger_and_Sorter/tree/f53b0bc491724504e37e8e588e74c94faedfe4a9/Data%20Organiser/Processed_data) directory
+
+## Database structure
+In [Organiser.py](https://github.com/BenTheGoose69/DarkSoulsIII_Logger_and_Sorter/blob/7ec1a36745d0211cee386f268e35c7ca3a860b26/Data%20Organiser/Organiser.py), the database is generated in the _create_database_ function, further details are available there
