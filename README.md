@@ -1,6 +1,6 @@
 # DarkSoulsIII data logger and organizer
 This project contains:
-* A DS3 data logger, which works by digging in the computer's memory, and outputting the collected data to a .txt file **(Log Souls III)**
+* A DS3 data logger, which works by digging in the computer's memory in C / C++, and outputting the collected data to a .txt file **(Log Souls III)**
 * A python program, that puts all the collected data into a .db file **(Data Organiser)**
 
 ## More info
