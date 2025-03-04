@@ -2,7 +2,7 @@ import os
 import sqlite3
 from datetime import datetime
 import sys
-import time
+import shutil
 
 DB_FILE = "Logging_data.db"
 UNPROCESSED_DATA = "Unprocessed_data"
@@ -81,7 +81,7 @@ def organise_data(file, file_path):
 
     player_data = check_player_in_database(player_data)
 
-    print(player_data["character_name"], player_data["steam_id"])
+    print(f"\033[94m{player_data["character_name"]} \033[0m{player_data["steam_id"]}")
 
     lines = iter(file)
     for i, line in enumerate(lines, 1):
@@ -259,13 +259,19 @@ def process_txt_files(directory):
         if filename.endswith(".txt"):
             # print(os.path.join(directory, filename))
             parse_txt_files(os.path.join(directory, filename))
+            move_processed_file(filename)
+
+
+def move_processed_file(filename):
+    shutil.move(f"{UNPROCESSED_DATA}\\{filename}", f"{PROCESSED_DATA}\\{filename}")
 
 
 def main():
-    print("Data organisation started...")
+
+    print(f"\033[95mData organisation started...")
     create_database()
     process_txt_files(UNPROCESSED_DATA)
-    print("Organisation finished")
+    print(f"\033[95mOrganisation finished!\033[0m")
 
 
 if __name__ == "__main__":
