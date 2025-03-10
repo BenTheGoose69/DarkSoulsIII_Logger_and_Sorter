@@ -8,4 +8,4 @@ For more info about the specifics of each module, go into their directories and 
 
 ## Download link
 You can click on the link to download the latest release of 
-[Log Souls III](https://github.com/BenTheGoose69/DarkSoulsIII_Logger_and_Sorter/releases/download/untagged-55250c0afb6ef66d0e0d/Log.Souls.III.exe)
+[Log Souls III](https://github.com/BenTheGoose69/DarkSoulsIII_Logger_and_Sorter/releases/download/release/Log.Souls.III.exe)
