@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <windows.h>
 #include <tlhelp32.h>
@@ -8,11 +9,15 @@
 #include <vector>
 #include <fstream>
 #include "MemoryManipulation.h"
+
 //#define DEBUG
 //#define DEBUG_BOSS_VECTOR
+#define _CRT_SECURE_NO_WARNINGS
 
 #ifndef DataGathering
 #define DataGathering
+
+
 
 /**
  * @brief This function stores all the preset initial offsets, depending on what you need to use
@@ -188,7 +193,7 @@ std::string GetPlayerID(HANDLE process_handle, DWORD64 base_address) {
 		std::wcout << L"Player's Steam ID: " << buffer << std::endl;
 		std::cout << std::endl;
 #endif
-
+		
 		size_t size_needed = wcstombs(nullptr, buffer, 0) + 1;
 		char* narrow_str = new char[size_needed];
 		//Conversion wide -> char*
