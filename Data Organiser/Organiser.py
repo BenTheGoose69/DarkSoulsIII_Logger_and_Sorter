@@ -60,6 +60,22 @@ def create_database():
     conn.close()
 
 
+def print_logo():
+    print(
+        f"""\033[1;31m
+         ______   _______ _________ _______         _______  _______  _______  _______  _       _________ _______  _______  _______ 
+        (  __  \ (  ___  )\__   __/(  ___  )       (  ___  )(  ____ )(  ____ \(  ___  )( (    /|\__   __/(  ____ \(  ____ \(  ____ )
+        | (  \  )| (   ) |   ) (   | (   ) |       | (   ) || (    )|| (    \/| (   ) ||  \  ( |   ) (   | (    \/| (    \/| (    )|
+        | |   ) || (___) |   | |   | (___) |       | |   | || (____)|| |      | (___) ||   \ | |   | |   | (_____ | (__    | (____)|
+        | |   | ||  ___  |   | |   |  ___  |       | |   | ||     __)| | ____ |  ___  || (\ \) |   | |   (_____  )|  __)   |     __)
+        | |   ) || (   ) |   | |   | (   ) |       | |   | || (\ (   | | \_  )| (   ) || | \   |   | |         ) || (      | (\ (   
+        | (__/  )| )   ( |   | |   | )   ( |       | (___) || ) \ \__| (___) || )   ( || )  \  |___) (___/\____) || (____/\| ) \ \__
+        (______/ |/     \|   )_(   |/     \|       (_______)|/   \__/(_______)|/     \||/    )_)\_______/\_______)(_______/|/   \__/     
+                                                                                                                            
+    """
+    )
+
+
 def parse_txt_files(file_path):
     with open(file_path, "r") as file:
         organise_data(file, file_path)
@@ -81,7 +97,7 @@ def organise_data(file, file_path):
 
     player_data = check_player_in_database(player_data)
 
-    print(f"\033[94m{player_data["character_name"]} \033[0m{player_data["steam_id"]}")
+    print(f"\033[1;34m{player_data["character_name"]} \033[0m{player_data["steam_id"]}")
 
     lines = iter(file)
     for i, line in enumerate(lines, 1):
@@ -267,7 +283,7 @@ def move_processed_file(filename):
 
 
 def main():
-
+    print_logo()
     print(f"\033[95mData organisation started...")
     create_database()
     process_txt_files(UNPROCESSED_DATA)
