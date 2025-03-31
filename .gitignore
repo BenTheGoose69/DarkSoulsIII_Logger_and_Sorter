@@ -406,3 +406,4 @@ Data Organiser/Processed_data/*.txt
 Data Organiser/Unprocessed_data/*.txt
 !Unprocessed_data/.gitkeep
 Logging_data.db
+*.png
