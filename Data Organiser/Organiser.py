@@ -282,13 +282,9 @@ def move_processed_file(filename):
     shutil.move(f"{UNPROCESSED_DATA}\\{filename}", f"{PROCESSED_DATA}\\{filename}")
 
 
-def main():
-    print_logo()
+def organise_starter():
+    # print_logo()
     print(f"\033[95mData organisation started...")
     create_database()
     process_txt_files(UNPROCESSED_DATA)
     print(f"\033[95mOrganisation finished!\033[0m")
-
-
-if __name__ == "__main__":
-    main()
