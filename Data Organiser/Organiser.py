@@ -282,9 +282,31 @@ def move_processed_file(filename):
     shutil.move(f"{UNPROCESSED_DATA}\\{filename}", f"{PROCESSED_DATA}\\{filename}")
 
 
-def organise_starter():
+def reset_txt_files(directory):
+    for filename in os.listdir(directory):
+        if filename.endswith(".txt"):
+            move_back_processed_file(filename)
+
+
+def move_back_processed_file(filename):
+    shutil.move(f"{PROCESSED_DATA}\\{filename}", f"{UNPROCESSED_DATA}\\{filename}")
+
+
+def delete_db():
+    if os.path.isfile(DB_FILE):
+        os.remove(DB_FILE)
+
+
+def organise_main():
     # print_logo()
     print(f"\033[95mData organisation started...")
     create_database()
     process_txt_files(UNPROCESSED_DATA)
     print(f"\033[95mOrganisation finished!\033[0m")
+
+
+def unorganise_main():
+    print(f"\033[95mData reset started...\033[0m")
+    reset_txt_files(PROCESSED_DATA)
+    delete_db()
+    print(f"\033[95mReset finished!\033[0m")

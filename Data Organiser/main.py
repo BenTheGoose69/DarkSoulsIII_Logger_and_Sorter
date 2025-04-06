@@ -14,9 +14,10 @@ def main_menu():
         \033[0m"""
         )
         print("Please choose an option\n")
-        print(f"\033[1;34m[1]\033[0m Organise collected data")
-        print(f"\033[1;34m[2]\033[0m Generate general graphs")
-        print(f"\033[1;34m[3]\033[0m Generate player specific graphs")
+        print(f"\033[1;34m[1]\033[0m Reset database")
+        print(f"\033[1;34m[2]\033[0m Organise collected data")
+        print(f"\033[1;34m[3]\033[0m Generate general graphs")
+        print(f"\033[1;34m[4]\033[0m Generate player specific graphs")
         print(f"\033[1;34m[Anything]\033[0m Exit")
         print()
 
@@ -24,10 +25,12 @@ def main_menu():
         print(f"\033[0m")
 
         if choice == "1":
-            Organiser.organise_starter()
+            Organiser.unorganise_main()
         elif choice == "2":
-            Visualizer.general_graphs()
+            Organiser.organise_main()
         elif choice == "3":
+            Visualizer.general_graphs()
+        elif choice == "4":
             print(":)!")
         else:
             print("Exiting...")
