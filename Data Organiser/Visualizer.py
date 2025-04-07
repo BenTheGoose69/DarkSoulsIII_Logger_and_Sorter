@@ -217,7 +217,7 @@ def general_graphs():
             print(f"\033[0mGenerated NormalizedBossAttempts.png!")
         elif choice == "2":
             bossfight_time_chart()
-            print(f"\033[0mAverageBossFightTime.png!")
+            print(f"\033[0mGenerated AverageBossFightTime.png!")
         else:
             print(f"\033[0mReturning to main menu...")
             break
@@ -269,7 +269,9 @@ def bonfire_level(ids: list[int], show: bool = True):
             plt.grid(True)
 
             # Save as image
-            plt.savefig(f"{player_name}_level_progression.png")
+            if not os.path.exists("Player_graphs"):
+                os.makedirs("Player_graphs")
+            plt.savefig(f"Player_graphs/{player_name}_level_progression.png")
             print(f"\033[0mGenerated {player_name}_level_progression.png!")
             if show == True:
                 plt.show()
@@ -332,7 +334,9 @@ def normalized_boss_attempts_chart():
     ax.grid(axis="x", linestyle="--", alpha=0.7)
 
     fig.tight_layout()
-    fig.savefig("NormalizedBossAttempts.png")
+    if not os.path.exists("General_graphs"):
+        os.makedirs("General_graphs")
+    fig.savefig("General_graphs/NormalizedBossAttempts.png")
     plt.show()
 
 
@@ -440,7 +444,9 @@ ORDER BY valid_pairs DESC;
     ax.grid(axis="x", linestyle="--", alpha=0.7)
 
     fig.tight_layout()
-    fig.savefig("AverageBossFightTime.png")
+    if not os.path.exists("General_graphs"):
+        os.makedirs("General_graphs")
+    fig.savefig("General_graphs/AverageBossFightTime.png")
     plt.show()
 
 
