@@ -1,6 +1,9 @@
 import sqlite3
 import pandas as pd
 import numpy as np
+
+# import matplotlib
+# matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import os
 
@@ -11,7 +14,7 @@ import os
 # - játszási idők bar chartokon
 
 # Connect to SQLite database
-db_path = "Logging_data.db"
+DB_FILE = "Logging_data.db"
 
 
 def print_logo():
@@ -45,6 +48,85 @@ def player_specific_graphs():
     )
 
 
+def print_players_infos():
+    conn = sqlite3.connect("Logging_data.db")
+    query = """
+        SELECT id, steam_id, character_name FROM player;
+    """
+    df = pd.read_sql_query(query, conn)
+    conn.close()
+
+    # Handle cases where there might be no data
+    if df.empty:
+        print("No players recorded in the database.")
+        return
+
+    for index, row in df.iterrows():
+        print(
+            f"\033[1;34m[{row["id"]}]\033[0m {row["character_name"]}[{row["steam_id"]}]"
+        )
+    print("\033[0m")
+
+
+def validate_player_name(name: str):
+
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT id FROM player WHERE character_name LIKE ?", (name + "%",))
+    result = cursor.fetchone()
+    conn.close()
+
+    if result:
+        print("Valid player name!")
+        return [[result][0][0]]
+    else:
+        print("No player")
+        return [0]
+
+
+def validate_player_id(id: int):
+
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT id FROM player WHERE id = ?", (id,))
+    result = cursor.fetchone()
+    conn.close()
+
+    if result:
+        print("Valid player id!")
+        return [[result][0][0]]
+    else:
+        print("No player")
+        return [0]
+
+
+def get_all_player_ids():
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT id FROM player")
+    result = cursor.fetchall()
+    conn.close()
+
+    ids: int = []
+    for item in result:
+        ids.append(item[0])
+    return ids
+
+
+def get_player_name(id: int):
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT character_name FROM player WHERE id = ?", (id,))
+    result = cursor.fetchone()
+    conn.close()
+
+    return result[0]
+
+
 def player_select():
     print(
         f"""\033[1;34m
@@ -55,6 +137,59 @@ def player_select():
                |__/                                                     
         \033[0m"""
     )
+    print("Please choose a player's name or the ID of a player!")
+    print(
+        "Examples: -id 15 \033[1;31mOR\033[0m -name John \033[1;31mOR\033[0m if you want all of them: -all "
+    )
+    print("If you want to go back, enter 0!\n")
+
+    print_players_infos()
+
+    choice = input("Enter your choice:\033[1;34m ")
+
+    data = choice.lstrip().split(" ")
+    if data[0] == "-id" and data[1].isdigit():
+        return validate_player_id(data[1]), True
+    elif data[0] == "-name":
+        return validate_player_name(data[1]), True
+    elif data[0] == "-all":
+        return get_all_player_ids(), False
+    elif data[0] == "0":
+        return [0], False
+    else:
+        print("\033[1;31mInvalid choice!\033[0m")
+        return [0]
+
+
+def player_specific_graphs():
+
+    while True:
+        print(
+            f"""\033[1;34m
+ ___ _                     ___              _  __ _       ___               _       
+| _ \ |__ _ _  _ ___ _ _  / __|_ __  ___ __(_)/ _(_)__   / __|_ _ __ _ _ __| |_  ___
+|  _/ / _` | || / -_) '_| \__ \ '_ \/ -_) _| |  _| / _| | (_ | '_/ _` | '_ \ ' \(_-<
+|_| |_\__,_|\_, \___|_|   |___/ .__/\___\__|_|_| |_\__|  \___|_| \__,_| .__/_||_/__/
+            |__/              |_|                                     |_|           
+            
+        \033[0m"""
+        )
+        print("Please select the type of player specific graph you would like:\n")
+        print(f"\033[1;34m[1]\033[0m Leveling progression throughout the game")
+        print(f"\033[1;34m[2]\033[0m :)")
+        print(f"\033[1;34m[Anything]\033[0m Exit")
+        print()
+
+        choice = input("Enter your choice:\033[1;34m ")
+
+        if choice == "1":
+            ids, show = player_select()
+            bonfire_level(ids, show)
+        elif choice == "2":
+            print(":)")
+        else:
+            print(f"\033[0mReturning to main menu...")
+            break
 
 
 def general_graphs():
@@ -97,38 +232,47 @@ def time_to_hours(time_str):
         return None  # Handle incorrect formats gracefully
 
 
-def bonfire_level():
+def bonfire_level(ids: list[int], show: bool = True):
+    if ids != [0]:
+        for id in ids:
 
-    conn = sqlite3.connect("Logging_data.db")
-    query = """
-        SELECT timestamp, level FROM bonfires WHERE player_id = 2 ORDER BY timestamp 
-    """
-    df = pd.read_sql_query(query, conn)
+            conn = sqlite3.connect(DB_FILE)
+            df = pd.read_sql_query(
+                "SELECT timestamp, level FROM bonfires WHERE player_id = ? ORDER BY timestamp",
+                conn,
+                params=(id,),
+            )
+            conn.close()
 
-    df["playtime_hours"] = df["timestamp"].apply(time_to_hours)
+            player_name = get_player_name(id)
 
-    # Drop rows where playtime is invalid
-    # df = df.dropna(subset=["playtime_hours"])
+            df["playtime_hours"] = df["timestamp"].apply(time_to_hours)
 
-    # Plot playtime progression
-    plt.figure(figsize=(10, 5))
-    plt.plot(
-        df["playtime_hours"],
-        df["level"],
-        marker="o",
-        linestyle="-",
-        color="blue",
-        label="Level Progression",
-    )
-    plt.xlabel("Total Playtime (Hours)")
-    plt.ylabel("Level")
-    plt.title("Bonfire Level Progression Over Playtime")
-    plt.legend()
-    plt.grid(True)
+            # Drop rows where playtime is invalid
+            # df = df.dropna(subset=["playtime_hours"])
 
-    # Save as image
-    plt.savefig("bonfire_level_progression.png")
-    plt.show()
+            # Plot playtime progression
+            plt.figure(figsize=(10, 5))
+            plt.plot(
+                df["playtime_hours"],
+                df["level"],
+                marker="o",
+                linestyle="-",
+                color="blue",
+                label="Level Progression",
+            )
+
+            plt.xlabel("Playtime (Hours)")
+            plt.ylabel("Level")
+            plt.title(f"{player_name}: Level Progression Over Playtime")
+            plt.legend()
+            plt.grid(True)
+
+            # Save as image
+            plt.savefig(f"{player_name}_level_progression.png")
+            print(f"\033[0mGenerated {player_name}_level_progression.png!")
+            if show == True:
+                plt.show()
 
 
 def normalized_boss_attempts_chart():

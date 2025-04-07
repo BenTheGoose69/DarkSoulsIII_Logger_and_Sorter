@@ -31,7 +31,7 @@ def main_menu():
         elif choice == "3":
             Visualizer.general_graphs()
         elif choice == "4":
-            print(":)!")
+            Visualizer.player_specific_graphs()
         else:
             print("Exiting...")
             break
