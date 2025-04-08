@@ -1,6 +1,6 @@
 import Organiser
-import Visualizer
-
+import General_graphs
+import Player_graphs
 
 def main_menu():
 
@@ -29,9 +29,9 @@ def main_menu():
         elif choice == "2":
             Organiser.organise_main()
         elif choice == "3":
-            Visualizer.general_graphs()
+            General_graphs.menu()
         elif choice == "4":
-            Visualizer.player_specific_graphs()
+            Player_graphs.menu()
         else:
             print("Exiting...")
             break

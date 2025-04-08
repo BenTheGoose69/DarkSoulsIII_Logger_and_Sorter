@@ -9,7 +9,11 @@ UNPROCESSED_DATA = "Unprocessed_data"
 PROCESSED_DATA = "Processed_data"
 
 
+
 def create_database():
+    """Creates the main logging database
+    """
+    
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
 
@@ -60,28 +64,37 @@ def create_database():
     conn.close()
 
 
-def print_logo():
-    print(
-        f"""\033[1;31m
-     ______   _______ _________ _______         _______  _______  _______  _______  _       _________ _______  _______  _______ 
-    (  __  \ (  ___  )\__   __/(  ___  )       (  ___  )(  ____ )(  ____ \(  ___  )( (    /|\__   __/(  ____ \(  ____ \(  ____ )
-    | (  \  )| (   ) |   ) (   | (   ) |       | (   ) || (    )|| (    \/| (   ) ||  \  ( |   ) (   | (    \/| (    \/| (    )|
-    | |   ) || (___) |   | |   | (___) |       | |   | || (____)|| |      | (___) ||   \ | |   | |   | (_____ | (__    | (____)|
-    | |   | ||  ___  |   | |   |  ___  |       | |   | ||     __)| | ____ |  ___  || (\ \) |   | |   (_____  )|  __)   |     __)
-    | |   ) || (   ) |   | |   | (   ) |       | |   | || (\ (   | | \_  )| (   ) || | \   |   | |         ) || (      | (\ (   
-    | (__/  )| )   ( |   | |   | )   ( |       | (___) || ) \ \__| (___) || )   ( || )  \  |___) (___/\____) || (____/\| ) \ \__
-    (______/ |/     \|   )_(   |/     \|       (_______)|/   \__/(_______)|/     \||/    )_)\_______/\_______)(_______/|/   \__/     
-                                                                                                                            
+def process_txt_files(directory):
+    """Searches for all the .txt files in the directory and gives it to 
+    other functions for them to process the data
+    Args:
+        directory (string): The directory in which the logs are saved
     """
-    )
+    
+    for filename in os.listdir(directory):
+        if filename.endswith(".txt"):
+            # print(os.path.join(directory, filename))
+            parse_txt_files(os.path.join(directory, filename))
+            move_processed_file(filename)
 
 
 def parse_txt_files(file_path):
+    """Opens and parses .txt file
+    Args:
+        filepath (string): The filepath of the file you want to parse
+    """
+    
     with open(file_path, "r") as file:
         organise_data(file, file_path)
 
 
 def organise_data(file, file_path):
+    """Organises the data and puts it into the database
+    Args:
+        file (file): The log file you want to oraginse
+        file_path (string): The filepath of the log
+    """
+    
     player_data = {
         "id": "",
         "steam_id": "",
@@ -172,6 +185,10 @@ def organise_data(file, file_path):
 
 
 def check_player_in_database(player_data):
+    """Checks, whether a player is in the database. By the end, the player will be in the database
+    Args:
+        player_data (player_data): The basic data about a player
+    """
 
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
@@ -204,6 +221,11 @@ def check_player_in_database(player_data):
 
 
 def update_player_in_database(player_data):
+    """Updates a player's info in the database
+    Args:
+        player_data (player_data): The basic data about a player 
+    """
+    
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
 
@@ -227,6 +249,15 @@ def update_player_in_database(player_data):
 
 
 def add_bonfire_rest(player_id, bonfire_name, level, total_souls, timestamp):
+    """Adds a bonfire rest to a player in the database
+    Args:
+        player_id(int): The ID of a player
+        bonfire_name(string): The name of the bonfire rested at
+        level(int): The level of the player at the bonfire 
+        total_souls(int): All the souls the player collected in the game 
+        timestamp(timestamp): A timestamp containing the ingame time
+    """
+    
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute(
@@ -237,6 +268,14 @@ def add_bonfire_rest(player_id, bonfire_name, level, total_souls, timestamp):
 
 
 def add_bossfight(player_id, bossfight_status, boss_name, timestamp):
+    """Adds a bossfight event to a player in the database
+    Args:
+        player_id(int): The ID of a player 
+        bossfight_status(string): can be ENTER / DIED / DEFEATED 
+        boss_name(string): can be NIL / the name of the boss 
+        timestamp(timestamp): A timestamp containing the ingame time
+    """
+    
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute(
@@ -261,6 +300,12 @@ def add_bossfight(player_id, bossfight_status, boss_name, timestamp):
 
 
 def add_session(player_id, timestamp):
+    """Adds a session start to a player in the database
+    Args:
+        player_id(int): The ID of a player 
+        timestamp(timestamp): A timestamp containing the ingame time
+    """
+    
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute(
@@ -270,35 +315,48 @@ def add_session(player_id, timestamp):
     conn.commit()
 
 
-def process_txt_files(directory):
-    for filename in os.listdir(directory):
-        if filename.endswith(".txt"):
-            # print(os.path.join(directory, filename))
-            parse_txt_files(os.path.join(directory, filename))
-            move_processed_file(filename)
-
 
 def move_processed_file(filename):
+    """Moves the a file from UNPROCESSED_DATA to PROCESSED_DATA
+    Args:
+        filename (string): name of file to be moved
+    """
+    
     shutil.move(f"{UNPROCESSED_DATA}\\{filename}", f"{PROCESSED_DATA}\\{filename}")
 
 
 def reset_txt_files(directory):
+    """Move the processed logs back to their origin
+    Args:
+        directory (string): The directory where the files are 
+    """
+    
     for filename in os.listdir(directory):
         if filename.endswith(".txt"):
             move_back_processed_file(filename)
 
 
 def move_back_processed_file(filename):
+    """Moves back the processed file
+    Args:
+        filename (string): The name of the file to be moved back
+    """
+    
     shutil.move(f"{PROCESSED_DATA}\\{filename}", f"{UNPROCESSED_DATA}\\{filename}")
 
 
 def delete_db():
+    """deletes the database
+    """
+    
     if os.path.isfile(DB_FILE):
         os.remove(DB_FILE)
 
 
 def organise_main():
-    # print_logo()
+    """The main function of the Organiser, starts the whole process and puts it in motion
+    """
+    
     print(f"\033[95mData organisation started...")
     create_database()
     process_txt_files(UNPROCESSED_DATA)
@@ -306,7 +364,10 @@ def organise_main():
 
 
 def unorganise_main():
+    """The opposite of the orginise_main function
+    """
+    
     print(f"\033[95mData reset started...\033[0m")
-    reset_txt_files(PROCESSED_DATA)
     delete_db()
+    reset_txt_files(PROCESSED_DATA)
     print(f"\033[95mReset finished!\033[0m")
